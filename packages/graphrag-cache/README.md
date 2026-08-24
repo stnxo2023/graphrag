@@ -1,22 +1,25 @@
 # GraphRAG Cache
 
+> [!WARNING]
+> GraphRAG is a research project that explores the functional use of graphs to form a targeted context for question answering. Since our first release in July 2024 the capabilities of frontier models have changed dramatically, and our portfolio of research projects has diversified to match. This project is largely in maintenance mode, and won't be accepting new PRs or implementing new features. We'll perform bug fixes and dependency updates as appropriate, particularly to address CVEs as they arise.
+
 This package contains a collection of utilities to handle GraphRAG caching implementation.
 
 ### Basic
 
-This example shows how to create a JSON cache with file storage using the GraphRAG cache package's configuration system. 
+This example shows how to create a JSON cache with file storage using the GraphRAG cache package's configuration system.
 
-[Open the notebook to explore the basic example code](example-notebooks/basic_cache_example.ipynb)
+[Open the notebook to explore the basic example code](example_notebooks/basic_cache_example.ipynb)
 
 ### Custom Cache
 
 This example demonstrates how to create a custom cache implementation by extending the base Cache class and registering it with the GraphRAG cache system. Once registered, the custom cache can be instantiated through the factory pattern using either CacheConfig or directly via cache_factory, allowing for extensible caching solutions tailored to specific needs.
 
-[Open the notebook to explore the basic custom example code](example-notebooks/custom_cache_example.ipynb)
+[Open the notebook to explore the basic custom example code](example_notebooks/custom_cache_example.ipynb)
 
 #### Details
 
-By default, the `create_cache` comes with the following cache providers registered that correspond to the entries in the `CacheType` enum. 
+By default, the `create_cache` comes with the following cache providers registered that correspond to the entries in the `CacheType` enum.
 
 - `JsonCache`
 - `MemoryCache`

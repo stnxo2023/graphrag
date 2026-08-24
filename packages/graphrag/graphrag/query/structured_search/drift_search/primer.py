@@ -5,6 +5,7 @@
 
 import logging
 import secrets
+import textwrap
 import time
 from typing import TYPE_CHECKING
 
@@ -57,7 +58,7 @@ class PrimerQueryProcessor:
         Initialize the PrimerQueryProcessor.
 
         Args:
-            chat_llm (ChatOpenAI): The language model used to process the query.
+            chat_model (LLMCompletion): The language model used to process the query.
             text_embedder (BaseTextEmbedding): The text embedding model.
             reports (list[CommunityReport]): List of community reports.
             tokenizer (Tokenizer, optional): Token encoder for token counting.
@@ -80,10 +81,18 @@ class PrimerQueryProcessor:
         """
         template = secrets.choice(self.reports).full_content  # nosec S311
 
-        prompt = f"""Create a hypothetical answer to the following query: {query}\n\n
-                  Format it to follow the structure of the template below:\n\n
-                  {template}\n"
-                  Ensure that the hypothetical answer does not reference new named entities that are not present in the original query."""
+        prompt = (
+            textwrap.dedent(f"""\
+                Create a hypothetical answer to the following query: {query}
+
+                Format it to follow the structure of the template below:
+
+                """)
+            + template
+            + textwrap.dedent("""
+
+                Ensure that the hypothetical answer does not reference new named entities that are not present in the original query.""")
+        )
 
         model_response: LLMCompletionResponse = await self.chat_model.completion_async(
             messages=prompt
@@ -134,7 +143,7 @@ class DRIFTPrimer:
 
         Args:
             config (DRIFTSearchConfig): Configuration settings for DRIFT search.
-            chat_llm (ChatOpenAI): The language model used for searching.
+            chat_model (LLMCompletion): The language model used for searching.
             tokenizer (Tokenizer, optional): Tokenizer for managing tokens.
         """
         self.chat_model = chat_model
